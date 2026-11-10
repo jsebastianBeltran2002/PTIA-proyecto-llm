@@ -1,0 +1,3 @@
+Estudiante de Ingeniería de Sistemas. Experiencia en Python, pandas y SQL para análisis de datos en proyectos académicos.
+Desarrollé dashboards en Power BI y un modelo de clasificación con scikit-learn. Uso Git y trabajo en equipo con metodologías ágiles.
+Inglés B2. Interés en data analytics y machine learning.

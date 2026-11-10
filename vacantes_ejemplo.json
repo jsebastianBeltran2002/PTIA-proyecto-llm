@@ -1,0 +1,9 @@
+[
+  {"titulo": "Analista de Datos Junior", "descripcion": "Buscamos analista con Python, SQL y Power BI para análisis de datos, construcción de dashboards y comunicación de hallazgos. Se valora trabajo en equipo e inglés."},
+  {"titulo": "Desarrollador Backend Python", "descripcion": "Desarrollo de APIs REST con FastAPI o Django, PostgreSQL, Docker y Git. Pruebas unitarias y metodologías ágiles (Scrum)."},
+  {"titulo": "Ingeniero de Machine Learning", "descripcion": "Entrenamiento y despliegue de modelos de machine learning con Python, PyTorch, scikit-learn y AWS. NLP deseable."},
+  {"titulo": "Desarrollador Frontend React", "descripcion": "Construcción de interfaces con React y TypeScript, consumo de API REST, pruebas y trabajo en equipo."},
+  {"titulo": "Ingeniero de Datos", "descripcion": "Pipelines ETL con Spark y Airflow, SQL, Python y servicios en la nube (AWS o GCP). Ingeniería de datos y Docker."},
+  {"titulo": "Auxiliar Administrativo", "descripcion": "Apoyo en gestión documental, atención al cliente, manejo de Excel y comunicación efectiva."},
+  {"titulo": "Project Manager TI", "descripcion": "Gestión de proyectos de software con Scrum y agile, liderazgo de equipos, comunicación con clientes."}
+]

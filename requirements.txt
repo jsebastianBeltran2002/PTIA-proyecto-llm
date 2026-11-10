@@ -1,0 +1,7 @@
+streamlit
+sentence-transformers
+anthropic
+pandas
+numpy
+pypdf
+python-docx
