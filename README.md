@@ -28,5 +28,6 @@ modelo Flash estable más reciente (cambiable con `GEMINI_MODEL`).
     .venv/bin/python evaluacion/evaluacion.py          # ranking, habilidades y tiempos (sin API key)
     .venv/bin/python evaluacion/evaluacion.py --llm    # + CV reestructurado y búsqueda web (requiere clave)
 
+Documento del hito: [`docs/hito3.md`](docs/hito3.md).
 `evaluacion/dataset_eval.json`: 6 CV (español e inglés) × 20 vacantes con relevancia etiquetada a mano.
 Compara el MVP (embeddings) con TF-IDF, Jaccard de habilidades y un orden aleatorio; guarda `evaluacion/resultados.json`.
