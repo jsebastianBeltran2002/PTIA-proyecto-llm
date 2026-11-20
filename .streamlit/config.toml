@@ -1,0 +1,21 @@
+[theme]
+base = "light"
+primaryColor = "#0071E3"
+backgroundColor = "#F5F5F7"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1D1D1F"
+font = "sans serif"
+
+[server]
+# Solo accesible desde este PC. Con eso se puede desactivar la protección XSRF,
+# que hace fallar las subidas (error 403) cuando el navegador bloquea su cookie.
+address = "localhost"
+enableXsrfProtection = false
+enableCORS = false
+maxUploadSize = 20
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false

@@ -5,3 +5,6 @@ pandas
 numpy
 pypdf
 python-docx
+google-genai
+ddgs
+cryptography

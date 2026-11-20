@@ -1,7 +1,8 @@
 # Optimizador de CV con IA (PTIA – Hito 2)
 
     python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-    export ANTHROPIC_API_KEY=tu_clave     # Windows: set ANTHROPIC_API_KEY=tu_clave
+    export GEMINI_API_KEY=tu_clave        # gratis en aistudio.google.com/apikey (Windows: set GEMINI_API_KEY=...)
+    # o, con saldo en Anthropic: export ANTHROPIC_API_KEY=tu_clave
     .venv/bin/streamlit run app.py
 
 Flujo: CV (PDF, Word .docx/.doc, TXT o texto pegado) → búsqueda de vacantes **reales** en internet → ranking por afinidad
@@ -16,3 +17,9 @@ Flujo: CV (PDF, Word .docx/.doc, TXT o texto pegado) → búsqueda de vacantes *
 
 Modelo por defecto: `claude-opus-5-5` (cambiable con la variable `CLAUDE_MODEL`).
 La búsqueda web debe estar habilitada en la organización de la Console de Anthropic.
+
+### Motor gratuito (Gemini)
+En la barra lateral se elige el motor de IA. Con **Gemini (gratis)** la búsqueda usa `ddgs`
+(DuckDuckGo/Bing, sin clave) para obtener resultados reales y Gemini solo elige y estructura
+las ofertas: cada URL proviene del buscador, nunca del modelo. `gemini_helper.py` elige el
+modelo Flash estable más reciente (cambiable con `GEMINI_MODEL`).

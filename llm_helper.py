@@ -42,7 +42,10 @@ Instrucciones:
   máximo 4 viñetas: qué datos faltan completar y cómo cerrar las brechas."""
 
 
-def _llamar(prompt: str, api_key: str | None) -> str:
+def _llamar(prompt: str, api_key: str | None, proveedor: str = "claude") -> str:
+    if proveedor == "gemini":
+        import gemini_helper
+        return gemini_helper.generar(prompt, api_key, pensamiento="medium")
     import anthropic
     client = anthropic.Anthropic(api_key=api_key or os.getenv("ANTHROPIC_API_KEY"))
     msg = client.beta.messages.create(
@@ -67,11 +70,11 @@ def _campos(vacante: dict) -> dict:
     }
 
 
-def sugerir_adaptacion(cv: str, vacante: dict, api_key: str | None = None) -> str:
+def sugerir_adaptacion(cv: str, vacante: dict, api_key: str | None = None, proveedor: str = "claude") -> str:
     c = _campos(vacante)
     return _llamar(PROMPT_SUGERENCIAS.format(cv=cv, titulo=c["titulo"], descripcion=c["descripcion"],
-                                             brechas=c["brechas"]), api_key)
+                                             brechas=c["brechas"]), api_key, proveedor)
 
 
-def reestructurar_cv(cv: str, vacante: dict, api_key: str | None = None) -> str:
-    return _llamar(PROMPT_REESTRUCTURAR.format(cv=cv, **_campos(vacante)), api_key)
+def reestructurar_cv(cv: str, vacante: dict, api_key: str | None = None, proveedor: str = "claude") -> str:
+    return _llamar(PROMPT_REESTRUCTURAR.format(cv=cv, **_campos(vacante)), api_key, proveedor)
