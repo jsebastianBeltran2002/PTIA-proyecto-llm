@@ -8,7 +8,7 @@ El Optimizador de CV con IA ordena vacantes reales por afinidad con una hoja de 
 
 El problema es que quien busca empleo envía el mismo CV a todas partes, sin saber a qué vacantes se ajusta ni qué le falta. El MVP resuelve eso en un solo flujo: lee el CV, busca ofertas en portales de empleo, las ordena con embeddings multilingües, muestra las habilidades que faltan y genera un CV adaptado sin inventar experiencia.
 
-En la validación, los embeddings igualan a TF-IDF con CV en español y lo superan con CV en inglés (1,00 frente a 0,75). La debilidad principal es la extracción de habilidades, con recall de 0,71.
+En la validación, los embeddings igualan a TF-IDF con CV en español y lo superan con CV en inglés (1,00 frente a 0,75). Con IA, el CV reescrito pasó de cubrir 16 a 25 de las 25 habilidades pedidas, sin inventar empleos ni fechas, aunque en 1 de 6 CV agregó 2 habilidades sin respaldo. Las debilidades principales son la extracción de habilidades (recall 0,71) y la búsqueda gratuita, que volvió vacía en 3 de 6 intentos.
 
 ## Diseño
 
@@ -22,7 +22,7 @@ El texto del CV entra al paso 2, para deducir qué cargos buscar, y al paso 3, p
 
 | Decisión | Por qué |
 | --- | --- |
-| Emparejamiento con embeddings en local, no con un LLM | Es determinista, gratis y tarda ~71 ms. El mismo CV da siempre el mismo ranking, y eso se puede evaluar. |
+| Emparejamiento con embeddings en local, no con un LLM | Es determinista, gratis y tarda menos de 0,1 s. El mismo CV da siempre el mismo ranking, y eso se puede evaluar. |
 | Modelo multilingüe (`paraphrase-multilingual-MiniLM-L12-v2`) | Las ofertas en Colombia mezclan español e inglés. La validación muestra que aguanta CV en inglés. |
 | Vocabulario controlado de habilidades, no extracción con LLM | Las brechas son explicables y no varían entre ejecuciones. A cambio, se escapan sinónimos (ver Resultados). |
 | La URL de cada vacante sale del buscador, nunca del modelo | Evita vacantes y enlaces inventados. Con Claude, cada URL se cruza con los resultados reales de búsqueda. |
@@ -84,7 +84,7 @@ La validación mide si el ranking pone las vacantes correctas arriba, frente a t
 - **Extracción de habilidades:** precisión, recall y F1 contra las habilidades de referencia.
 - **Tiempos:** carga del modelo y ranking de 20 vacantes, en un portátil macOS sin GPU.
 
-La calidad del CV reestructurado y de la búsqueda web necesita API key. El script la mide con `--llm`: habilidades que aparecen en el CV nuevo y no estaban en el original (posible invención), afinidad antes y después, porcentaje de URLs verificadas y que responden.
+La reestructuración del CV y la búsqueda web se miden con `evaluacion.py --llm`, que necesita clave de Gemini o de Claude. Se cuentan las habilidades de la vacante que aparecen en el CV antes y después, y se revisan a mano las habilidades nuevas para separar las respaldadas de las inventadas. En la búsqueda se cuentan las URLs que salen del buscador y las que responden al abrirlas.
 
 ## Resultados
 
@@ -116,33 +116,73 @@ Con el MVP, la primera vacante del ranking fue siempre una muy afín (MRR = 1,00
 | Infraestructura | ci/cd, git | "integración continua", "GitLab" |
 | Diseño UX | trabajo en equipo | "colaboro con desarrolladores" |
 
-**Tiempos:** cargar el modelo de embeddings toma 4,6 s (una sola vez por sesión). Ordenar 20 vacantes toma unos 71 ms.
+**Tiempos:** cargar el modelo de embeddings toma entre 4 y 5 s (una sola vez por sesión). Ordenar 20 vacantes toma entre 37 y 71 ms, según la corrida.
+
+### Reestructuración del CV (con IA)
+
+La IA no inventó empleos, fechas ni certificaciones en ningún CV. En 1 de los 6 sí agregó 2 habilidades sin respaldo. Se midió con Gemini Flash (plan gratuito), reescribiendo cada CV para su vacante n.º 1. Los CV generados están en `evaluacion/salidas_llm/` para revisarlos.
+
+| Medida | Resultado |
+| --- | --- |
+| Habilidades pedidas por la vacante que aparecen en el CV | 16 de 25 antes → **25 de 25** después |
+| Habilidades nuevas en el CV, revisadas a mano | 11: **8 respaldadas** por el original, 1 leve, **2 inventadas** |
+| CV con alguna habilidad inventada | **1 de 6** (infraestructura: Azure y Docker) |
+| Empleos, fechas o certificaciones inventadas | **0**: lo que falta queda como `[Nombre de la empresa]` o `[agregar métrica]` |
+| Afinidad con la vacante (embeddings) | 0,71 → 0,66 en promedio; baja en los 6 CV |
+| Tiempo por CV | 5,9 s en promedio |
+
+La cobertura se cuenta en los 4 CV en que la vacante pide habilidades del vocabulario. En los CV de diseño UX y marketing, la vacante no pide ninguna.
+
+- **Respaldadas (8):** la IA nombró con la palabra de la vacante algo que el CV ya decía. Por ejemplo, "pytest" pasó a pruebas unitarias, Django y FastAPI a Python, "integración continua" a CI/CD, y "comunicadora social" a comunicación.
+- **Leve (1):** el CV de datos dice en el perfil "motivado por aportar valor en la comunicación de datos". Es una intención, no una experiencia.
+- **Inventadas (2):** el CV de infraestructura lista Azure y Docker en Habilidades. Sus propias notas reconocen que "solo cuentas con evidencia en AWS". Esto viola la regla del prompt de dejar las brechas fuera del CV.
+
+La afinidad por embeddings bajó porque el CV nuevo es unas 7 veces más largo que el original. Las secciones de educación, idiomas y los espacios por completar diluyen el vector. Para medir si el CV mejoró sirve la cobertura de habilidades, no esta afinidad.
+
+### Búsqueda web (con IA)
+
+Las 17 vacantes encontradas tienen enlaces reales sacados del buscador. El problema es que la búsqueda gratuita no siempre responde: 3 de 6 búsquedas volvieron vacías.
+
+| Medida | Resultado |
+| --- | --- |
+| Búsquedas con resultados | 3 de 6 |
+| Vacantes encontradas | 17 (5 o 6 por búsqueda con resultados) |
+| URLs que salieron del buscador | **17 de 17** |
+| URLs que abren (HTTP 200) | 8 de 17 |
+| URLs que bloquean el acceso automático (HTTP 429, 403, 401) | 9 de 17 |
+| URLs caídas (HTTP 404) | 0 |
+| Tiempo por búsqueda | 23 a 31 s |
+
+LinkedIn (429), Computrabajo (403) e Indeed (401) rechazan las visitas automatizadas, así que esas 9 URLs no se pudieron confirmar ni descartar. Las 3 búsquedas vacías coincidieron con conexiones cortadas por el buscador gratuito. Repetida aparte, la del CV contable encontró 26 ofertas individuales.
 
 ## Discusión, limitaciones y trabajo futuro
 
-El ranking por embeddings es confiable para poner primero la vacante correcta. Sus puntos débiles están en el tercer puesto del ranking y en la detección de habilidades dichas con otras palabras.
+El ranking por embeddings es confiable para poner primero la vacante correcta. Los puntos débiles están en lo que depende de terceros o de reglas fijas: el buscador gratuito, el vocabulario de habilidades y el cumplimiento del prompt por parte del LLM.
 
 **Limitaciones:**
 
 - **Conjunto pequeño.** Son 6 CV y 20 vacantes, etiquetados por el mismo equipo que hizo el sistema. Una diferencia de 0,11 en P@3 equivale a 2 vacantes, así que no es una diferencia estadística entre embeddings y TF-IDF en español.
 - **Vocabulario de habilidades cerrado.** No cubre áreas como contabilidad (NIIF), diseño (Figma) o marketing (pauta). En esos CV las brechas salen casi vacías aunque el ranking acierte.
 - **Habilidades por coincidencia exacta.** Se escaparon 10 de 34 habilidades por sinónimos ("pytest", "GitLab", "he liderado").
-- **CV reestructurado y búsqueda web sin medir en esta corrida.** Necesitan API key. El script ya trae las pruebas (`--llm`), pero los resultados no están en este documento.
-- **Resultados de la web cambiantes.** Las ofertas de los portales cambian cada día, así que la búsqueda no se puede repetir igual.
+- **El prompt no basta para impedir invenciones.** Aunque lo prohíbe, Gemini puso Azure y Docker en un CV sin evidencia. Una regla en el prompt no garantiza su cumplimiento.
+- **Búsqueda gratuita inestable.** El buscador sin clave corta conexiones cuando recibe muchas consultas seguidas, y 3 de 6 búsquedas volvieron vacías.
+- **Resultados que cambian.** Las ofertas de los portales cambian cada día y el LLM no responde igual dos veces. Por eso la corrida con IA se guardó (`salidas_llm/`, `resultados.json`) y se puede recalcular con `--reusar` sin volver a llamar a la IA.
 
 **Trabajo futuro:**
 
-1. Correr `evaluacion.py --llm` con una clave de Gemini y agregar la tasa de URLs verificadas y de habilidades inventadas.
-2. Ampliar el conjunto a 30 o más CV reales anonimizados, etiquetados por 2 personas, y medir el acuerdo entre ellas.
+1. Revisar el CV generado antes de mostrarlo: si aparece una habilidad que no está en el original, quitarla o pasarla a las notas. La verificación de esta evaluación ya detecta esos casos.
+2. Reintentar automáticamente la búsqueda cuando el buscador corta la conexión, con pausas entre consultas.
 3. Agregar alias al vocabulario (pytest → pruebas unitarias, GitLab → git, integración continua → ci/cd) y volver a medir el recall.
-4. Probar un puntaje híbrido (embeddings + TF-IDF) para mejorar el tercer puesto sin perder robustez en inglés.
+4. Ampliar el conjunto a 30 o más CV reales anonimizados, etiquetados por 2 personas, y medir el acuerdo entre ellas.
+5. Probar un puntaje híbrido (embeddings + TF-IDF) para mejorar el tercer puesto sin perder robustez en inglés.
 
 ## Conclusiones
 
 - El MVP funciona de punta a punta: lee el CV, consigue vacantes, las ordena, muestra brechas y entrega un CV adaptado.
 - El emparejamiento supera la meta del proyecto: top-3 accuracy de 1,00 frente a 0,80, y MRR de 1,00.
 - Los embeddings multilingües son la elección correcta. Igualan a TF-IDF con CV en español y lo superan con CV en inglés (1,00 frente a 0,75).
-- Lo más urgente por mejorar es la detección de habilidades: precisión 1,00, pero recall 0,71.
+- La reestructuración cumple su objetivo, porque cubre todas las habilidades pedidas, pero necesita una verificación después de generar. En 1 de 6 CV coló habilidades sin respaldo.
+- Lo más urgente por mejorar es la detección de habilidades (recall 0,71) y la estabilidad de la búsqueda gratuita.
 
 ## Anexo: cómo ejecutar y fuentes
 
@@ -173,5 +213,6 @@ La clave de Gemini (gratis en aistudio.google.com/apikey) se pega en la barra la
 | `evaluacion/dataset_eval.json` | 6 CV (español e inglés), 20 vacantes y etiquetas de relevancia |
 | `evaluacion/evaluacion.py` | Script de validación y líneas base |
 | `evaluacion/resultados.json` | Resultados de la corrida usada en este documento |
+| `evaluacion/salidas_llm/` | Los 6 CV reestructurados por Gemini en esa corrida |
 | `docs/img/` | Diagrama de arquitectura y gráfico de resultados |
 | `cv_ejemplo.txt`, `vacantes_ejemplo.json` | Datos de demostración de la app |

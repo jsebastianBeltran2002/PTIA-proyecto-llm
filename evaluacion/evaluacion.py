@@ -10,6 +10,7 @@ import argparse
 import json
 import math
 import random
+import re
 import sys
 import time
 from pathlib import Path
@@ -22,6 +23,17 @@ import matching  # noqa: E402
 
 AQUI = Path(__file__).resolve().parent
 K = 3
+
+
+def cargar_env():
+    """Lee las claves guardadas por la app (botón "Recordar clave en este equipo")."""
+    import os
+    archivo = RAIZ / ".env"
+    if archivo.exists():
+        for linea in archivo.read_text(encoding="utf-8").splitlines():
+            if "=" in linea and not linea.lstrip().startswith("#"):
+                k, v = linea.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
 # ---------- métricas de ranking ----------
@@ -108,51 +120,89 @@ def evaluar_habilidades(cvs):
 
 
 # ---------- pruebas con LLM (opcionales) ----------
-def evaluar_llm(cvs, vacantes, modelo, proveedor):
+def sin_notas(texto):
+    """Quita las "Notas para ti" del final (van después del último `---` previo a ese título)."""
+    i = texto.lower().rfind("notas para ti")
+    if i < 0:
+        return texto
+    corte = texto.rfind("\n---", 0, i)
+    return texto[:corte] if corte >= 0 else texto[:i]
+
+
+def evaluar_llm(cvs, vacantes, modelo, proveedor, reusar=False):
     import llm_helper
+    carpeta = AQUI / "salidas_llm"
+    carpeta.mkdir(exist_ok=True)
     filas = []
     for c in cvs:
         mejor = matching.rank_vacancies(c["texto"], vacantes, modelo)[0]
-        t0 = time.perf_counter()
-        nuevo = llm_helper.reestructurar_cv(c["texto"], mejor, proveedor=proveedor)
-        seg = time.perf_counter() - t0
-        cuerpo = nuevo.split("\n---")[0]  # sin las "Notas para ti"
-        inventadas = matching.extract_skills(cuerpo) - matching.extract_skills(c["texto"])
-        antes = mejor["score"]
+        archivo = carpeta / f"{c['id']}.md"
+        seg = None
+        if reusar and archivo.exists():
+            nuevo = archivo.read_text(encoding="utf-8")
+        else:
+            t0 = time.perf_counter()
+            nuevo = llm_helper.reestructurar_cv(c["texto"], mejor, proveedor=proveedor)
+            seg = time.perf_counter() - t0
+            archivo.write_text(nuevo, encoding="utf-8")
+        cuerpo = sin_notas(nuevo)
+        # Los espacios por completar ("[Inglés: nivel]") no afirman nada: se excluyen.
+        afirmado = re.sub(r"\[[^\]]*\]", " ", cuerpo)
+        nuevas = matching.extract_skills(afirmado) - matching.extract_skills(c["texto"])
         despues = matching.rank_vacancies(cuerpo, [mejor], modelo)[0]["score"]
-        filas.append({"cv": c["id"], "vacante": mejor["titulo"], "afinidad_antes": antes,
-                      "afinidad_despues": despues, "habilidades_nuevas": sorted(inventadas),
+        pedidas = set(mejor["habilidades_vacante"])
+        filas.append({"cv": c["id"], "vacante": mejor["titulo"], "afinidad_antes": mejor["score"],
+                      "afinidad_despues": despues, "habilidades_nuevas": sorted(nuevas),
+                      "pedidas_por_vacante": len(pedidas),
+                      "cubiertas_antes": len(pedidas & matching.extract_skills(c["texto"])),
+                      "cubiertas_despues": len(pedidas & matching.extract_skills(afirmado)),
                       "segundos": seg})
     return filas
 
 
-def evaluar_busqueda(cvs, proveedor, n=2):
+def evaluar_busqueda(cvs, proveedor, pausa=8):
+    import urllib.error
+    import urllib.parse
     import urllib.request
     import busqueda_web
     filas = []
-    for c in cvs[:n]:
+    for c in cvs:
+        time.sleep(pausa)  # el buscador gratuito limita las peticiones seguidas
         t0 = time.perf_counter()
-        res = busqueda_web.buscar_vacantes(c["texto"], "Colombia", 6, proveedor=proveedor)
+        try:
+            res = busqueda_web.buscar_vacantes(c["texto"], "Colombia", 6, proveedor=proveedor)
+        except Exception as e:  # sin resultados o buscador caído: se registra como 0
+            res = {"vacantes": [], "error": str(e)}
         seg = time.perf_counter() - t0
         vs = res["vacantes"]
-        activas = 0
+        codigos = []
         for v in vs:
+            url = urllib.parse.quote(v["url"], safe=":/?&=%#")
             try:
-                req = urllib.request.Request(v["url"], headers={"User-Agent": "Mozilla/5.0"})
-                activas += urllib.request.urlopen(req, timeout=10).status < 400
+                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                codigos.append(urllib.request.urlopen(req, timeout=10).status)
+            except urllib.error.HTTPError as e:
+                codigos.append(e.code)
             except Exception:
-                pass
+                codigos.append(None)
         filas.append({"cv": c["id"], "vacantes": len(vs),
                       "verificadas": sum(bool(v.get("verificada")) for v in vs),
-                      "url_responde": activas, "segundos": seg})
+                      "http_200": codigos.count(200),
+                      "http_403_bloqueo_bots": codigos.count(403),
+                      "http_404": codigos.count(404),
+                      "codigos": codigos, "portales": [v.get("portal") for v in vs],
+                      "segundos": seg})
     return filas
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--llm", action="store_true", help="incluye pruebas que llaman a la API")
+    ap.add_argument("--reusar", action="store_true",
+                    help="con --llm: usa los CV ya generados en salidas_llm/ y no repite la búsqueda web")
     ap.add_argument("--proveedor", default="gemini", choices=["gemini", "claude"])
     args = ap.parse_args()
+    cargar_env()
 
     datos = json.loads((AQUI / "dataset_eval.json").read_text(encoding="utf-8"))
     cvs, vacantes = datos["cvs"], datos["vacantes"]
@@ -197,8 +247,18 @@ def main():
                              "ranking_20_vacantes_ms": 1000 * float(np.mean(tiempos))}
 
     if args.llm:
-        resultados["reestructuracion"] = evaluar_llm(cvs, vacantes, modelo, args.proveedor)
-        resultados["busqueda_web"] = evaluar_busqueda(cvs, args.proveedor)
+        previos = {}
+        if args.reusar and (AQUI / "resultados.json").exists():
+            previos = json.loads((AQUI / "resultados.json").read_text(encoding="utf-8"))
+        anteriores = {f["cv"]: f["segundos"] for f in previos.get("reestructuracion", [])}
+        resultados["reestructuracion"] = evaluar_llm(cvs, vacantes, modelo, args.proveedor, args.reusar)
+        for f in resultados["reestructuracion"]:
+            if f["segundos"] is None:
+                f["segundos"] = anteriores.get(f["cv"])
+        if args.reusar and "busqueda_web" in previos:
+            resultados["busqueda_web"] = previos["busqueda_web"]
+        else:
+            resultados["busqueda_web"] = evaluar_busqueda(cvs, args.proveedor)
 
     (AQUI / "resultados.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=2), encoding="utf-8")
 

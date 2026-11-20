@@ -183,7 +183,198 @@
     ]
   },
   "tiempos": {
-    "carga_modelo_s": 3.585451541999646,
-    "ranking_20_vacantes_ms": 37.350069667202966
-  }
+    "carga_modelo_s": 4.068788541000686,
+    "ranking_20_vacantes_ms": 37.291284667541426
+  },
+  "reestructuracion": [
+    {
+      "cv": "c1_datos",
+      "vacante": "Analista de Datos Junior",
+      "afinidad_antes": 0.7551977634429932,
+      "afinidad_despues": 0.7070322632789612,
+      "habilidades_nuevas": [
+        "comunicacion"
+      ],
+      "pedidas_por_vacante": 7,
+      "cubiertas_antes": 6,
+      "cubiertas_despues": 7,
+      "segundos": 7.441262916996493
+    },
+    {
+      "cv": "c2_backend",
+      "vacante": "Desarrollador Backend Python",
+      "afinidad_antes": 0.7457468509674072,
+      "afinidad_despues": 0.645789384841919,
+      "habilidades_nuevas": [
+        "agile",
+        "api rest",
+        "devops",
+        "pruebas unitarias",
+        "python"
+      ],
+      "pedidas_por_vacante": 10,
+      "cubiertas_antes": 6,
+      "cubiertas_despues": 10,
+      "segundos": 5.49957083400659
+    },
+    {
+      "cv": "c3_contable",
+      "vacante": "Contador Público",
+      "afinidad_antes": 0.7388579845428467,
+      "afinidad_despues": 0.6808974742889404,
+      "habilidades_nuevas": [],
+      "pedidas_por_vacante": 1,
+      "cubiertas_antes": 1,
+      "cubiertas_despues": 1,
+      "segundos": 4.557502042000124
+    },
+    {
+      "cv": "c4_ux",
+      "vacante": "Diseñador UX/UI",
+      "afinidad_antes": 0.8336765170097351,
+      "afinidad_despues": 0.7360386848449707,
+      "habilidades_nuevas": [],
+      "pedidas_por_vacante": 0,
+      "cubiertas_antes": 0,
+      "cubiertas_despues": 0,
+      "segundos": 4.824923291998857
+    },
+    {
+      "cv": "c5_infra",
+      "vacante": "Ingeniero DevOps Cloud",
+      "afinidad_antes": 0.5433563590049744,
+      "afinidad_despues": 0.5172165632247925,
+      "habilidades_nuevas": [
+        "azure",
+        "ci/cd",
+        "devops",
+        "docker"
+      ],
+      "pedidas_por_vacante": 7,
+      "cubiertas_antes": 3,
+      "cubiertas_despues": 7,
+      "segundos": 7.642932250004378
+    },
+    {
+      "cv": "c6_marketing",
+      "vacante": "Community Manager",
+      "afinidad_antes": 0.6540426015853882,
+      "afinidad_despues": 0.649278998374939,
+      "habilidades_nuevas": [
+        "comunicacion"
+      ],
+      "pedidas_por_vacante": 0,
+      "cubiertas_antes": 0,
+      "cubiertas_despues": 0,
+      "segundos": 5.256142625003122
+    }
+  ],
+  "busqueda_web": [
+    {
+      "cv": "c1_datos",
+      "vacantes": 6,
+      "verificadas": 6,
+      "http_200": 4,
+      "http_403_bloqueo_bots": 0,
+      "http_404": 0,
+      "codigos": [
+        200,
+        200,
+        200,
+        429,
+        200,
+        429
+      ],
+      "portales": [
+        "LinkedIn",
+        "elempleo",
+        "LinkedIn",
+        "LinkedIn",
+        "LinkedIn",
+        "LinkedIn"
+      ],
+      "segundos": 23.187878249998903
+    },
+    {
+      "cv": "c2_backend",
+      "vacantes": 6,
+      "verificadas": 6,
+      "http_200": 2,
+      "http_403_bloqueo_bots": 2,
+      "http_404": 0,
+      "codigos": [
+        429,
+        403,
+        403,
+        200,
+        429,
+        200
+      ],
+      "portales": [
+        "LinkedIn",
+        "Computrabajo",
+        "Computrabajo",
+        "LinkedIn",
+        "LinkedIn",
+        "LinkedIn"
+      ],
+      "segundos": 30.740455624996684
+    },
+    {
+      "cv": "c3_contable",
+      "vacantes": 0,
+      "verificadas": 0,
+      "http_200": 0,
+      "http_403_bloqueo_bots": 0,
+      "http_404": 0,
+      "codigos": [],
+      "portales": [],
+      "segundos": 30.093424833001336
+    },
+    {
+      "cv": "c4_ux",
+      "vacantes": 0,
+      "verificadas": 0,
+      "http_200": 0,
+      "http_403_bloqueo_bots": 0,
+      "http_404": 0,
+      "codigos": [],
+      "portales": [],
+      "segundos": 28.75792058299703
+    },
+    {
+      "cv": "c5_infra",
+      "vacantes": 5,
+      "verificadas": 5,
+      "http_200": 2,
+      "http_403_bloqueo_bots": 1,
+      "http_404": 0,
+      "codigos": [
+        403,
+        401,
+        200,
+        429,
+        200
+      ],
+      "portales": [
+        "Computrabajo",
+        "Indeed",
+        "LinkedIn",
+        "LinkedIn",
+        "LinkedIn"
+      ],
+      "segundos": 22.88422420799907
+    },
+    {
+      "cv": "c6_marketing",
+      "vacantes": 0,
+      "verificadas": 0,
+      "http_200": 0,
+      "http_403_bloqueo_bots": 0,
+      "http_404": 0,
+      "codigos": [],
+      "portales": [],
+      "segundos": 28.967688166994776
+    }
+  ]
 }

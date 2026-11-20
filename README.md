@@ -43,6 +43,9 @@ Se eligen en la barra lateral:
 
     .venv/bin/python evaluacion/evaluacion.py          # ranking, habilidades y tiempos (sin API key)
     .venv/bin/python evaluacion/evaluacion.py --llm    # + CV reestructurado y búsqueda web (requiere clave)
+    .venv/bin/python evaluacion/evaluacion.py --llm --reusar   # recalcula con los CV ya generados, sin llamar a la IA
+
+La clave se toma de `.env` (la que guarda la app) o de la variable de entorno.
 
 Usa `evaluacion/dataset_eval.json` (6 CV en español e inglés × 20 vacantes, relevancia etiquetada a mano)
 y compara el MVP con TF-IDF, Jaccard de habilidades y un orden aleatorio. Guarda `evaluacion/resultados.json`.
@@ -53,6 +56,8 @@ y compara el MVP con TF-IDF, Jaccard de habilidades y un orden aleatorio. Guarda
 | MRR | 1,00 |
 | TF-IDF con CV en inglés (comparación) | 0,75 de top-3 accuracy |
 | Extracción de habilidades | precisión 1,00 · recall 0,71 |
-| Ranking de 20 vacantes | ~71 ms (carga del modelo: 4,6 s) |
+| Ranking de 20 vacantes | 37 a 71 ms (carga del modelo: 4 a 5 s) |
+| CV reestructurado: habilidades pedidas cubiertas | 16/25 → 25/25 · 0 empleos o fechas inventados · 1 de 6 CV con 2 habilidades sin respaldo |
+| Búsqueda web (Gemini + buscador gratuito) | 17/17 URLs del buscador · 3 de 6 búsquedas vacías por el buscador |
 
 ![Top-3 accuracy por método](docs/img/top3_por_idioma.png)
