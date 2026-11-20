@@ -1,0 +1,224 @@
+{
+  "descripcion": "Conjunto de validación etiquetado a mano. relevancia: 2 = muy afín, 1 = parcialmente afín, 0 = no afín (las vacantes omitidas en 'relevancia' cuentan como 0). 'habilidades' = habilidades del vocabulario que un evaluador humano reconoce en el texto, aunque estén dichas con otras palabras.",
+  "vacantes": [
+    {
+      "id": "v01",
+      "titulo": "Analista de Datos Junior",
+      "descripcion": "Buscamos analista con Python, SQL y Power BI para análisis de datos, construcción de dashboards y comunicación de hallazgos. Se valora trabajo en equipo e inglés."
+    },
+    {
+      "id": "v02",
+      "titulo": "Desarrollador Backend Python",
+      "descripcion": "Desarrollo de APIs REST con FastAPI o Django, PostgreSQL, Docker y Git. Pruebas unitarias y metodologías ágiles (Scrum)."
+    },
+    {
+      "id": "v03",
+      "titulo": "Ingeniero de Machine Learning",
+      "descripcion": "Entrenamiento y despliegue de modelos de machine learning con Python, PyTorch, scikit-learn y AWS. NLP deseable."
+    },
+    {
+      "id": "v04",
+      "titulo": "Desarrollador Frontend React",
+      "descripcion": "Construcción de interfaces con React y TypeScript, consumo de API REST, pruebas y trabajo en equipo."
+    },
+    {
+      "id": "v05",
+      "titulo": "Ingeniero de Datos",
+      "descripcion": "Pipelines ETL con Spark y Airflow, SQL, Python y servicios en la nube (AWS o GCP). Ingeniería de datos y Docker."
+    },
+    {
+      "id": "v06",
+      "titulo": "Auxiliar Administrativo",
+      "descripcion": "Apoyo en gestión documental, atención al cliente, manejo de Excel y comunicación efectiva."
+    },
+    {
+      "id": "v07",
+      "titulo": "Project Manager TI",
+      "descripcion": "Gestión de proyectos de software con Scrum y agile, liderazgo de equipos, comunicación con clientes."
+    },
+    {
+      "id": "v08",
+      "titulo": "Científico de Datos",
+      "descripcion": "Modelos predictivos y estadística aplicada con Python, pandas y scikit-learn. Experimentación A/B y presentación de resultados al negocio."
+    },
+    {
+      "id": "v09",
+      "titulo": "Ingeniero DevOps Cloud",
+      "descripcion": "Automatización de infraestructura en AWS y Azure, contenedores con Docker y Kubernetes, pipelines CI/CD y administración de servidores Linux."
+    },
+    {
+      "id": "v10",
+      "titulo": "Técnico de Soporte TI",
+      "descripcion": "Mesa de ayuda nivel 1 y 2, instalación de equipos, redes básicas, Windows y Linux. Atención a usuarios y documentación de incidentes."
+    },
+    {
+      "id": "v11",
+      "titulo": "Analista QA / Tester",
+      "descripcion": "Diseño y ejecución de casos de prueba, testing funcional y automatizado, reporte de defectos y trabajo con equipos Scrum."
+    },
+    {
+      "id": "v12",
+      "titulo": "Contador Público",
+      "descripcion": "Contabilidad general, conciliaciones bancarias, declaraciones tributarias y normas NIIF. Manejo avanzado de Excel y software contable."
+    },
+    {
+      "id": "v13",
+      "titulo": "Analista Financiero",
+      "descripcion": "Elaboración de presupuestos, flujo de caja, indicadores financieros y modelos en Excel. Reportes para gerencia en Power BI."
+    },
+    {
+      "id": "v14",
+      "titulo": "Diseñador UX/UI",
+      "descripcion": "Investigación con usuarios, prototipos en Figma, sistemas de diseño y pruebas de usabilidad para productos web y móviles."
+    },
+    {
+      "id": "v15",
+      "titulo": "Diseñador Gráfico",
+      "descripcion": "Piezas para redes sociales e impresos con Illustrator y Photoshop, manejo de identidad de marca."
+    },
+    {
+      "id": "v16",
+      "titulo": "Community Manager",
+      "descripcion": "Gestión de redes sociales, calendario de contenidos, métricas de campañas y atención a la comunidad digital."
+    },
+    {
+      "id": "v17",
+      "titulo": "Ejecutivo Comercial",
+      "descripcion": "Venta consultiva B2B, prospección de clientes, cumplimiento de metas comerciales y manejo de CRM."
+    },
+    {
+      "id": "v18",
+      "titulo": "Enfermero(a) Profesional",
+      "descripcion": "Atención y cuidado de pacientes hospitalizados, administración de medicamentos, registros clínicos y trabajo en equipo interdisciplinario."
+    },
+    {
+      "id": "v19",
+      "titulo": "Desarrollador Móvil",
+      "descripcion": "Aplicaciones Android e iOS con Flutter o React Native, consumo de servicios REST, publicación en tiendas y Git."
+    },
+    {
+      "id": "v20",
+      "titulo": "Docente de Matemáticas",
+      "descripcion": "Clases de álgebra, cálculo y estadística para bachillerato, planeación de clases y evaluación de estudiantes."
+    }
+  ],
+  "cvs": [
+    {
+      "id": "c1_datos",
+      "perfil": "Estudiante de sistemas orientado a datos",
+      "texto": "Estudiante de Ingeniería de Sistemas. Experiencia en Python, pandas y SQL para análisis de datos en proyectos académicos. Desarrollé dashboards en Power BI y un modelo de clasificación con scikit-learn. Uso Git y trabajo en equipo con metodologías ágiles. Inglés B2. Interés en data analytics y machine learning.",
+      "relevancia": {
+        "v01": 2,
+        "v08": 2,
+        "v03": 1,
+        "v05": 1,
+        "v13": 1
+      },
+      "habilidades": [
+        "python",
+        "pandas",
+        "sql",
+        "analisis de datos",
+        "power bi",
+        "scikit-learn",
+        "git",
+        "trabajo en equipo",
+        "agile",
+        "ingles",
+        "machine learning"
+      ],
+      "texto_en": "Systems Engineering student. Experience with Python, pandas and SQL for data analysis in academic projects. Built dashboards in Power BI and a classification model with scikit-learn. I use Git and work in teams with agile methodologies. English B2. Interested in data analytics and machine learning."
+    },
+    {
+      "id": "c2_backend",
+      "perfil": "Desarrollador backend con 2 años",
+      "texto": "Desarrollador de software con dos años construyendo servicios web en Django y FastAPI sobre PostgreSQL. Escribo pruebas automatizadas con pytest, despliego en contenedores Docker y versiono con Git. Participo en sprints con Scrum y he integrado APIs de pago. Conocimientos básicos de React.",
+      "relevancia": {
+        "v02": 2,
+        "v04": 1,
+        "v09": 1,
+        "v11": 1,
+        "v19": 1
+      },
+      "habilidades": [
+        "django",
+        "fastapi",
+        "postgresql",
+        "pruebas unitarias",
+        "testing",
+        "docker",
+        "git",
+        "scrum",
+        "agile",
+        "api rest",
+        "react"
+      ],
+      "texto_en": "Software developer with two years building web services in Django and FastAPI on PostgreSQL. I write automated tests with pytest, deploy in Docker containers and use Git for version control. I take part in Scrum sprints and have integrated payment APIs. Basic knowledge of React."
+    },
+    {
+      "id": "c3_contable",
+      "perfil": "Contadora con enfoque financiero",
+      "texto": "Contadora pública con cuatro años de experiencia en contabilidad general, cierres mensuales, conciliaciones e impuestos bajo NIIF. Elaboro informes financieros y presupuestos en Excel avanzado (tablas dinámicas, macros) y presento indicadores a la gerencia. Responsable, organizada y con buena comunicación.",
+      "relevancia": {
+        "v12": 2,
+        "v13": 2,
+        "v06": 1
+      },
+      "habilidades": [
+        "excel",
+        "comunicacion"
+      ],
+      "texto_en": "Certified public accountant with four years of experience in general ledger, monthly closings, reconciliations and taxes under IFRS. I prepare financial reports and budgets in advanced Excel (pivot tables, macros) and present KPIs to management. Responsible, organized and a good communicator."
+    },
+    {
+      "id": "c4_ux",
+      "perfil": "Diseñador de producto digital",
+      "texto": "Diseñador de producto con experiencia en investigación de usuarios, entrevistas y pruebas de usabilidad. Creo wireframes y prototipos de alta fidelidad en Figma y mantengo el sistema de diseño de una app móvil. Manejo Illustrator para piezas gráficas y colaboro con desarrolladores front-end.",
+      "relevancia": {
+        "v14": 2,
+        "v15": 1,
+        "v04": 1
+      },
+      "habilidades": [
+        "trabajo en equipo"
+      ],
+      "texto_en": "Product designer with experience in user research, interviews and usability testing. I create wireframes and high-fidelity prototypes in Figma and maintain the design system of a mobile app. I use Illustrator for graphic pieces and collaborate with front-end developers."
+    },
+    {
+      "id": "c5_infra",
+      "perfil": "Administrador de sistemas en transición a DevOps",
+      "texto": "Técnico en sistemas con tres años en mesa de ayuda y administración de servidores Linux. Automatizo tareas con scripts en Bash y Python, monté pipelines de integración continua en GitLab y despliego contenedores en Kubernetes sobre AWS. Atiendo incidentes y documento soluciones.",
+      "relevancia": {
+        "v09": 2,
+        "v10": 2,
+        "v05": 1,
+        "v02": 1
+      },
+      "habilidades": [
+        "linux",
+        "python",
+        "ci/cd",
+        "kubernetes",
+        "aws",
+        "git"
+      ],
+      "texto_en": "Systems technician with three years in help desk and Linux server administration. I automate tasks with Bash and Python scripts, set up continuous integration pipelines in GitLab and deploy containers on Kubernetes on AWS. I handle incidents and document solutions."
+    },
+    {
+      "id": "c6_marketing",
+      "perfil": "Comunicadora digital",
+      "texto": "Comunicadora social con experiencia manejando las redes sociales de una marca de ropa: calendario editorial, creación de contenido, pauta y reportes de métricas de alcance. He liderado campañas con influenciadores y apoyado al equipo comercial en eventos. Diseño piezas básicas en Canva.",
+      "relevancia": {
+        "v16": 2,
+        "v17": 1,
+        "v15": 1
+      },
+      "habilidades": [
+        "comunicacion",
+        "liderazgo",
+        "trabajo en equipo"
+      ],
+      "texto_en": "Social communicator with experience managing the social media of a clothing brand: editorial calendar, content creation, paid ads and reach metrics reports. I have led influencer campaigns and supported the sales team at events. I design basic graphics in Canva."
+    }
+  ]
+}

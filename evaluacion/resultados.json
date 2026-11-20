@@ -1,0 +1,189 @@
+{
+  "n_cvs": 6,
+  "n_vacantes": 20,
+  "k": 3,
+  "metodos": {
+    "embeddings (MVP)": {
+      "top3_acc": 1.0,
+      "p@3": 0.7777777777777777,
+      "ndcg@5": 0.9137602441557782,
+      "mrr": 1.0
+    },
+    "tf-idf": {
+      "top3_acc": 0.9166666666666666,
+      "p@3": 0.8888888888888888,
+      "ndcg@5": 0.9223006169981192,
+      "mrr": 1.0
+    },
+    "jaccard habilidades": {
+      "top3_acc": 0.6666666666666666,
+      "p@3": 0.611111111111111,
+      "ndcg@5": 0.6029983144834002,
+      "mrr": 0.605654761904762
+    },
+    "aleatorio": {
+      "top3_acc": 0.14683333333333334,
+      "p@3": 0.19091666666666307,
+      "ndcg@5": 0.19303462625354714,
+      "mrr": 0.22285699773974318
+    }
+  },
+  "por_cv": [
+    {
+      "cv": "c1_datos",
+      "perfil": "Estudiante de sistemas orientado a datos",
+      "top3_acc": 1.0,
+      "p@3": 1.0,
+      "ndcg@5": 0.937708058067494,
+      "mrr": 1.0,
+      "top3": [
+        "Analista de Datos Junior",
+        "Científico de Datos",
+        "Ingeniero de Machine Learning"
+      ]
+    },
+    {
+      "cv": "c2_backend",
+      "perfil": "Desarrollador backend con 2 años",
+      "top3_acc": 1.0,
+      "p@3": 0.3333333333333333,
+      "ndcg@5": 0.6932817824006374,
+      "mrr": 1.0,
+      "top3": [
+        "Desarrollador Backend Python",
+        "Ingeniero de Machine Learning",
+        "Ingeniero de Datos"
+      ]
+    },
+    {
+      "cv": "c3_contable",
+      "perfil": "Contadora con enfoque financiero",
+      "top3_acc": 1.0,
+      "p@3": 1.0,
+      "ndcg@5": 1.0,
+      "mrr": 1.0,
+      "top3": [
+        "Contador Público",
+        "Analista Financiero",
+        "Auxiliar Administrativo"
+      ]
+    },
+    {
+      "cv": "c4_ux",
+      "perfil": "Diseñador de producto digital",
+      "top3_acc": 1.0,
+      "p@3": 0.6666666666666666,
+      "ndcg@5": 0.9726097514324383,
+      "mrr": 1.0,
+      "top3": [
+        "Diseñador UX/UI",
+        "Diseñador Gráfico",
+        "Desarrollador Móvil"
+      ]
+    },
+    {
+      "cv": "c5_infra",
+      "perfil": "Administrador de sistemas en transición a DevOps",
+      "top3_acc": 1.0,
+      "p@3": 1.0,
+      "ndcg@5": 1.0,
+      "mrr": 1.0,
+      "top3": [
+        "Ingeniero DevOps Cloud",
+        "Técnico de Soporte TI",
+        "Ingeniero de Datos"
+      ]
+    },
+    {
+      "cv": "c6_marketing",
+      "perfil": "Comunicadora digital",
+      "top3_acc": 1.0,
+      "p@3": 0.6666666666666666,
+      "ndcg@5": 0.878961873034099,
+      "mrr": 1.0,
+      "top3": [
+        "Community Manager",
+        "Diseñador Gráfico",
+        "Auxiliar Administrativo"
+      ]
+    }
+  ],
+  "cv_en_ingles": {
+    "embeddings (MVP)": {
+      "top3_acc": 1.0,
+      "p@3": 0.7222222222222222,
+      "ndcg@5": 0.8793886880179702,
+      "mrr": 1.0
+    },
+    "tf-idf": {
+      "top3_acc": 0.75,
+      "p@3": 0.7222222222222222,
+      "ndcg@5": 0.6689126739082581,
+      "mrr": 0.6493055555555556
+    },
+    "jaccard habilidades": {
+      "top3_acc": 0.6666666666666666,
+      "p@3": 0.611111111111111,
+      "ndcg@5": 0.6240427756912322,
+      "mrr": 0.6889880952380952
+    }
+  },
+  "habilidades": {
+    "precision": 1.0,
+    "recall": 0.7058823529411765,
+    "f1": 0.8275862068965517,
+    "tp": 24,
+    "fp": 0,
+    "fn": 10,
+    "detalle": [
+      {
+        "cv": "c1_datos",
+        "faltaron": [],
+        "sobraron": []
+      },
+      {
+        "cv": "c2_backend",
+        "faltaron": [
+          "agile",
+          "api rest",
+          "pruebas unitarias",
+          "testing"
+        ],
+        "sobraron": []
+      },
+      {
+        "cv": "c3_contable",
+        "faltaron": [],
+        "sobraron": []
+      },
+      {
+        "cv": "c4_ux",
+        "faltaron": [
+          "trabajo en equipo"
+        ],
+        "sobraron": []
+      },
+      {
+        "cv": "c5_infra",
+        "faltaron": [
+          "ci/cd",
+          "git"
+        ],
+        "sobraron": []
+      },
+      {
+        "cv": "c6_marketing",
+        "faltaron": [
+          "comunicacion",
+          "liderazgo",
+          "trabajo en equipo"
+        ],
+        "sobraron": []
+      }
+    ]
+  },
+  "tiempos": {
+    "carga_modelo_s": 3.585451541999646,
+    "ranking_20_vacantes_ms": 37.350069667202966
+  }
+}

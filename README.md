@@ -23,3 +23,10 @@ En la barra lateral se elige el motor de IA. Con **Gemini (gratis)** la búsqued
 (DuckDuckGo/Bing, sin clave) para obtener resultados reales y Gemini solo elige y estructura
 las ofertas: cada URL proviene del buscador, nunca del modelo. `gemini_helper.py` elige el
 modelo Flash estable más reciente (cambiable con `GEMINI_MODEL`).
+
+### Validación (Hito 3)
+    .venv/bin/python evaluacion/evaluacion.py          # ranking, habilidades y tiempos (sin API key)
+    .venv/bin/python evaluacion/evaluacion.py --llm    # + CV reestructurado y búsqueda web (requiere clave)
+
+`evaluacion/dataset_eval.json`: 6 CV (español e inglés) × 20 vacantes con relevancia etiquetada a mano.
+Compara el MVP (embeddings) con TF-IDF, Jaccard de habilidades y un orden aleatorio; guarda `evaluacion/resultados.json`.
